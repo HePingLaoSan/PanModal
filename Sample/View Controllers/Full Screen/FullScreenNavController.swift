@@ -66,6 +66,9 @@ private class FullScreenViewController: UIViewController {
 
     private func setupConstraints() {
         view.addSubview(textLabel)
+        guard #available(iOS 9.0, *) else {
+            return
+        }
         textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         textLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }

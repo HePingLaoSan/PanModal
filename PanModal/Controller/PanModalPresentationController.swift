@@ -389,6 +389,9 @@ private extension PanModalPresentationController {
     func layoutBackgroundView(in containerView: UIView) {
         containerView.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        guard #available(iOS 9.0, *) else {
+            return
+        }
         backgroundView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
@@ -402,6 +405,9 @@ private extension PanModalPresentationController {
     func addDragIndicatorView(to view: UIView) {
         view.addSubview(dragIndicatorView)
         dragIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        guard #available(iOS 9.0, *) else {
+            return
+        }
         dragIndicatorView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: -Constants.indicatorYOffset).isActive = true
         dragIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         dragIndicatorView.widthAnchor.constraint(equalToConstant: Constants.dragIndicatorSize.width).isActive = true

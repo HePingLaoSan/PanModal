@@ -31,7 +31,10 @@ class UserGroupHeaderView: UIView {
         return label
     }()
 
-    lazy var stackView: UIStackView = {
+    lazy var stackView: AnyObject? = {
+        guard #available(iOS 9.0, *) else {
+            return nil
+        }
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -53,8 +56,10 @@ class UserGroupHeaderView: UIView {
         super.init(frame: frame)
 
         backgroundColor = #colorLiteral(red: 0.1019607843, green: 0.1137254902, blue: 0.1294117647, alpha: 1)
-
-        addSubview(stackView)
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        addSubview(stackView as! UIStackView)
         addSubview(seperatorView)
 
         setupConstraints()
@@ -67,11 +72,13 @@ class UserGroupHeaderView: UIView {
     // MARK: - Layout
 
     func setupConstraints() {
-
-        stackView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.contentInsets.top).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.contentInsets.left).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.contentInsets.right).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.contentInsets.bottom).isActive = true
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        (stackView as! UIStackView ).topAnchor.constraint(equalTo: topAnchor, constant: Constants.contentInsets.top).isActive = true
+        (stackView as! UIStackView ).leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.contentInsets.left).isActive = true
+        (stackView as! UIStackView ).trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.contentInsets.right).isActive = true
+        (stackView as! UIStackView ).bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.contentInsets.bottom).isActive = true
 
         seperatorView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         seperatorView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true

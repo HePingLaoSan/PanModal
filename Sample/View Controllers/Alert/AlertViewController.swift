@@ -24,6 +24,10 @@ class AlertViewController: UIViewController, PanModalPresentable {
     }
 
     private func setupView() {
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        
         view.addSubview(alertView)
         alertView.translatesAutoresizingMaskIntoConstraints = false
         alertView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

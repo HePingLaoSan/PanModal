@@ -74,7 +74,9 @@ class ProfileViewController: UIViewController {
     // MARK: - Layoutt
 
     func setupConstraints() {
-
+        guard #available(iOS 9.0, *) else {
+            return
+        }
         avatarView.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
         avatarView.heightAnchor.constraint(equalToConstant: 200.0).isActive = true
         avatarView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

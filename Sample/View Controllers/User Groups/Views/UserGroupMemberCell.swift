@@ -43,7 +43,10 @@ class UserGroupMemberCell: UITableViewCell {
         return label
     }()
 
-    lazy var memberDetailsStackView: UIStackView = {
+    lazy var memberDetailsStackView: AnyObject? = {
+        guard #available(iOS 9.0, *) else {
+            return nil
+        }
         let stackView = UIStackView(arrangedSubviews: [nameLabel, roleLabel])
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -51,8 +54,11 @@ class UserGroupMemberCell: UITableViewCell {
         return stackView
     }()
 
-    lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [avatarView, memberDetailsStackView])
+    lazy var stackView: AnyObject? = {
+        guard #available(iOS 9.0, *) else {
+            return nil
+        }
+        let stackView = UIStackView(arrangedSubviews: [avatarView, memberDetailsStackView as! UIStackView])
         stackView.alignment = .center
         stackView.spacing = 16.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,8 +76,10 @@ class UserGroupMemberCell: UITableViewCell {
         let backgroundView = UIView()
         backgroundView.backgroundColor = #colorLiteral(red: 0.8196078431, green: 0.8235294118, blue: 0.8274509804, alpha: 1).withAlphaComponent(0.11)
         selectedBackgroundView = backgroundView
-
-        contentView.addSubview(stackView)
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        contentView.addSubview(stackView as! UIStackView)
 
         setupConstraints()
     }
@@ -83,11 +91,15 @@ class UserGroupMemberCell: UITableViewCell {
     // MARK: - Layout
 
     func setupConstraints() {
-
-        stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.contentInsets.top).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.contentInsets.left).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.contentInsets.right).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.contentInsets.bottom).isActive = true
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        let stack  = stackView as! UIStackView
+        
+        stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.contentInsets.top).isActive = true
+        stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.contentInsets.left).isActive = true
+        stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.contentInsets.right).isActive = true
+        stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.contentInsets.bottom).isActive = true
 
         let avatarWidthConstriant = avatarView.widthAnchor.constraint(equalToConstant: Constants.avatarSize.width)
         let avatarHeightConstraint = avatarView.heightAnchor.constraint(equalToConstant: Constants.avatarSize.height)
