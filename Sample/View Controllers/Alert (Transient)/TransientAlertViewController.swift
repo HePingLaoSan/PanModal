@@ -26,10 +26,15 @@ class TransientAlertViewController: AlertViewController {
 
     private func startTimer() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.countdown -= 1
-            self?.updateMessage()
+        if #available(iOS 10.0, *) {
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+                self?.countdown -= 1
+                self?.updateMessage()
+            }
+        } else {
         }
+        
+        
     }
 
     @objc func updateMessage() {
